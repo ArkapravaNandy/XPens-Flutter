@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
-import './transaction.dart';
-
+import './widgets/user_txn.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,24 +16,30 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget{
-  final List<Transaction> txn=[
-    Transaction(id: 'i1', title: 'Salary', amount: 90000.00, txnDate: DateTime.now()),
-    Transaction(id: 't2', title: 'Groceries', amount:1400.00, txnDate: DateTime.now()),
-    //Transaction(id: 't3', title: 'Stationary', amount:1400.00, txnDate: DateTime.now()),
-    //Transaction(id: 't4', title: 'House Rent', amount:35000.00, txnDate: DateTime.now()),
-  ];
+  void bringUpNewTxn(){
+    showModalBottomSheet(context: null, builder: null);
+  }  
+  final titleControl=TextEditingController();
+  final amtControl=TextEditingController();
 
-  String titleInput;
-  String amtInput; 
+  //String titleInput;
+  //String amtInput; 
 
   @override
-  Widget build(BuildContext context){
+   build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: Text('Xpens'),
-
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.add_circle),
+          onPressed: (){},)
+        ],
       ),
-      body: Column(
+      body:
+      //Wrapping the body data within SingleChildScrollView() enables Scrolling
+      SingleChildScrollView( 
+        child:
+      Column(
         //mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -53,117 +56,17 @@ class HomePage extends StatelessWidget{
             ),
               elevation: 5,
               ),
-        Card(
-          elevation: 5,
-          child: 
-          Container(
-            padding:EdgeInsets.all(6) ,
-            child:
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-            
-              Container(
-                padding:EdgeInsets.all(3.5),
-                child:
-
-              TextField(
-                onChanged:(val){titleInput=val;} ,
-                decoration: InputDecoration(labelText: 'Title',
-              
-              focusedBorder: OutlineInputBorder(
-                borderSide:BorderSide(color:Colors.purple, width:2.5 ) ,
-              
-              )
-               ),),),
-              TextField(
-                onChanged: (val)=>amtInput=val,
-                decoration: InputDecoration(labelText: 'Amount',
-                focusedBorder: OutlineInputBorder(
-                borderSide:BorderSide(color:Colors.purple, width:2.5 ) ,
-                
-              )),
-                
-                ),
-                FlatButton(onPressed: (){
-                  print(titleInput);
-                  print(amtInput);
-                }, child: Text('Add Transaction'))
-          ],),),
-         
-
-        ),
-        Column(children: txn.map((tx){
-            return Card(
-              
-              child: 
-            Container(child:Row(
-                
-                 children: <Widget>[
-                   Container(
-                     padding: EdgeInsets.all(5),
-                     child: Text('Rs '+tx.amount.toString(), 
-                     
-                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: (tx.id.startsWith('i'))?Colors.green:Colors.red ), ),
-                     decoration: BoxDecoration(
-                      border: Border.all(
-                        color: (tx.id.startsWith('i'))?Colors.green:Colors.red,
-                        width: 2.5,
-                          
-                      ),
-                      borderRadius: BorderRadius.circular(10),
-                      
-                     ),
-                   ),
-                
-                   
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      
-                      Container(
-                        
-                        margin:EdgeInsets.fromLTRB(15,0,0,0),
-                        child:
-                      Text(tx.title,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
-                      
-
-                      ),
-                      )
-
-                      ), 
-                      Container(
-                        
-                        margin:EdgeInsets.fromLTRB(15,0,0,0) ,
-                        child:
-
-                        Text(DateFormat.yMMMMd().format(tx.txnDate),
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                          color:  Colors.grey ,
-                        ),
-                        ),
-                        ),
-
-                      ],
-                )
-                 ],         
-            ) ,
-            padding: EdgeInsets.all(15),
-            margin: EdgeInsets.all(5),
-            ),
-            );
-        }).toList(),
-          ),
-        
+        UserTxn(),
       ],
       ),
 
+    ),
+    floatingActionButton: FloatingActionButton(
+    onPressed:(){} ,
+    child: Icon(Icons.add),
+    elevation: 5,
+    
+    ),
     );
   }
 }
