@@ -22,11 +22,12 @@ class HomePage extends StatelessWidget{
   final List<Transaction> txn=[
     Transaction(id: 'i1', title: 'Salary', amount: 90000.00, txnDate: DateTime.now()),
     Transaction(id: 't2', title: 'Groceries', amount:1400.00, txnDate: DateTime.now()),
-    Transaction(id: 't3', title: 'Stationary', amount:1400.00, txnDate: DateTime.now()),
-    Transaction(id: 't4', title: 'House Rent', amount:35000.00, txnDate: DateTime.now()),
+    //Transaction(id: 't3', title: 'Stationary', amount:1400.00, txnDate: DateTime.now()),
+    //Transaction(id: 't4', title: 'House Rent', amount:35000.00, txnDate: DateTime.now()),
   ];
 
-  
+  String titleInput;
+  String amtInput; 
 
   @override
   Widget build(BuildContext context){
@@ -48,18 +49,47 @@ class HomePage extends StatelessWidget{
 
             Text('CHART!', textAlign: TextAlign.center,
         ),
-            height: 50, width: double.infinity,
+             width: double.infinity,
             ),
               elevation: 5,
               ),
         Card(
           elevation: 5,
           child: 
-          Column(children: <Widget>[
+          Container(
+            padding:EdgeInsets.all(6) ,
+            child:
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+            
+              Container(
+                padding:EdgeInsets.all(3.5),
+                child:
+
+              TextField(
+                onChanged:(val){titleInput=val;} ,
+                decoration: InputDecoration(labelText: 'Title',
               
-              TextField(decoration: InputDecoration(labelText: 'Title',)),
-              TextField(decoration: InputDecoration(labelText: 'Amount'),),
-          ],)
+              focusedBorder: OutlineInputBorder(
+                borderSide:BorderSide(color:Colors.purple, width:2.5 ) ,
+              
+              )
+               ),),),
+              TextField(
+                onChanged: (val)=>amtInput=val,
+                decoration: InputDecoration(labelText: 'Amount',
+                focusedBorder: OutlineInputBorder(
+                borderSide:BorderSide(color:Colors.purple, width:2.5 ) ,
+                
+              )),
+                
+                ),
+                FlatButton(onPressed: (){
+                  print(titleInput);
+                  print(amtInput);
+                }, child: Text('Add Transaction'))
+          ],),),
          
 
         ),
