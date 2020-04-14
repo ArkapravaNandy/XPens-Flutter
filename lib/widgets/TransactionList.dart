@@ -6,16 +6,16 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> userTxn;
-
-  TransactionList(this.userTxn);
+  final Function _delTxn; 
+  TransactionList(this.userTxn, this._delTxn);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Card(
       child:
       Column(children: userTxn.map((tx){
             return Card(
-              
+              elevation: 5,
               child: 
             Container(child:Row(
                                   
@@ -24,55 +24,63 @@ class TransactionList extends StatelessWidget {
                      padding: EdgeInsets.all(5),
                      child: Text('Rs '+tx.amount.toStringAsFixed(2), 
                      
-                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: (tx.id.startsWith('i'))?Colors.green:Colors.red ), ),
+                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color:Colors.white, ),),
                      decoration: BoxDecoration(
-
+                       color:Colors.purple,
                       border: Border.all(
-                        color: (tx.id.startsWith('i'))?Colors.green:Colors.red,
+                        color: Colors.purple,
                         width: 2.5,
                           
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(5),
                       
                      ),
                    ),
                 
                    
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      
-                      Container(
+                Expanded(
+                                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
                         
-                        margin:EdgeInsets.fromLTRB(15,0,0,0),
-                        child:
-                      Text(tx.title,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.w500,
-                      
-
-                      ),
-                      )
-
-                      ), 
-                      Container(
-                        
-                        margin:EdgeInsets.fromLTRB(15,0,0,0) ,
-                        child:
-
-                        Text(DateFormat.yMMMMd().format(tx.txnDate),
+                        Container(
+                          
+                          margin:EdgeInsets.fromLTRB(15,0,0,0),
+                          child:
+                        Text(tx.title,
+                        textAlign: TextAlign.left,
                         style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w300,
-                          color:  Colors.grey ,
-                        ),
-                        ),
-                        ),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        
 
-                      ],
-                )
+                        ),
+                        )
+
+                        ), 
+                        Container(
+                          
+                          margin:EdgeInsets.fromLTRB(15,0,0,0) ,
+                          child:
+
+                          Text(DateFormat.yMMMMd().format(tx.txnDate),
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                            color:  Colors.grey ,
+                          ),
+                          ),
+                          ),
+
+                        ],
+                  ),
+                ),
+                FloatingActionButton(
+                  onPressed:()=>_delTxn(tx.id),
+                   
+                  child:Icon(Icons.delete),
+                  elevation: 0,
+                  )
                  ],         
             ) ,
             padding: EdgeInsets.all(15),
@@ -83,4 +91,5 @@ class TransactionList extends StatelessWidget {
           )
     );
   }
+  
 }
